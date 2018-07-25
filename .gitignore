@@ -1,0 +1,16 @@
+
+\.ipynb_checkpoints/
+
+*.dbf
+
+*.shx
+
+*.shp
+
+*.prj
+
+*.TIF
+
+data-tif/
+
+data-shp/
