@@ -21,7 +21,7 @@ def salva_arquivo(array_ndvi, dataset_nir):
 
     dataset_output = None
 
-def ndvi_calculate(array_nir, array_red, qa):
+def ndvi_calculate(array_nir, array_red):
     # Realiza o calculo do NDVI
     array_ndvi = (array_nir - array_red) / (array_nir + array_red)
     print(array_ndvi.shape)
@@ -38,11 +38,12 @@ def reflectance_calculate(mascara):
 
     return (np.ma.masked_equal(mascara, 0) * refmcoefs + refacoefs) * (1 / math.sin(math.radians(elevation)) )
 
+path = "/home/rafael/Desktop/dados_queimadas/landsat_8/tmp_LC08_L1TP_221067_20170926_20171013_01_T1/"
 
-filename_nir = r"../data/LC08_L1TP_223067_20180303_20180319_01_T1_B4.TIF"
-filename_red = r"../data/LC08_L1TP_223067_20180303_20180319_01_T1_B5.TIF"
+filename_nir =path+"LC08_L1TP_221067_20170926_20171013_01_T1_B5.TIF"
+filename_red = path+"LC08_L1TP_221067_20170926_20171013_01_T1_B3.TIF"
 
-print "Abrindo o arquivo " + filename_nir + ' e '+ filename_red
+
 
 try:
     dataset_nir = gdal.Open(filename_nir)
@@ -59,24 +60,9 @@ band_red = dataset_red.GetRasterBand(1)
 
 
 # Mostra os tipos de dados
-print ("Tipos de dados:")
-print 'NIR: ', gdal.GetDataTypeName(band_nir.DataType)
-print 'RED: ', gdal.GetDataTypeName(band_red.DataType)
 
 
-(menor_valor, maior_valor) = band_red.ComputeRasterMinMax()
-print "Menor valor de RED: ", menor_valor
-print "Maior valor de RED: ", maior_valor
 
-print 'RED: '
-print("Size is {} x {} x {}".format(dataset_red.RasterXSize,
-                                    dataset_red.RasterYSize,
-                                    dataset_red.RasterCount))
-
-print 'NIR: '
-print("Size is {} x {} x {}".format(dataset_nir.RasterXSize,
-                                    dataset_nir.RasterYSize,
-                                    dataset_nir.RasterCount))
 
 # Transfoma em um array numpy para realizar as operacoes
 
@@ -90,11 +76,12 @@ array_nir = band_nir.ReadAsArray().astype(np.float64)
 # permite a divisao por zero
 np.seterr(divide='ignore', invalid='ignore')
 
-array_ndvi = ndvi_calculate(array_red, array_nir, qa)
+array_ndvi = ndvi_calculate(array_red, array_nir)
 array_ndvi = array_ndvi.astype(np.float32)
 
-salva_arquivo(array_ndvi, dataset_nir)
 
+# salva_arquivo(array_ndvi, dataset_nir)
+#
 plt.imshow(array_ndvi, cmap='RdYlGn')
 plt.colorbar()
 plt.show()
