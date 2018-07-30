@@ -39,7 +39,7 @@ array_B7 = band_7.ReadAsArray().astype(np.float64)
 # permite a divisao por zero
 np.seterr(divide='ignore', invalid='ignore')
 
-array_NBR2 = (array_B6 - array_B7) / (array_B6 + array_B7)
+array_NBR2 = (array_B7 - array_B6) / (array_B7 + array_B6)
 
 print(array_NBR2.shape)
 
