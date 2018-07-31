@@ -5,6 +5,7 @@ import numpy as np
 from osgeo import gdal
 import re
 import shutil
+import matplotlib.pyplot as plt
 
 class image_landsat_8:
 
@@ -92,3 +93,9 @@ class image_landsat_8:
         dataset_output.FlushCache()
 
         dataset_output = None
+
+    def plot_image(self, band):
+
+        plt.imshow(band, cmap='RdYlGn')
+        plt.colorbar()
+        plt.show()
