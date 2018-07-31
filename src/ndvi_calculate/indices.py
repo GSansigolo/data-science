@@ -38,12 +38,11 @@ def reflectance_calculate(mascara):
 
     return (np.ma.masked_equal(mascara, 0) * refmcoefs + refacoefs) * (1 / math.sin(math.radians(elevation)) )
 
-path = "/home/rafael/Desktop/dados_queimadas/landsat_8/tmp_LC08_L1TP_221067_20170926_20171013_01_T1/"
+#NIR: 5 RED: 4
+filename_nir = r"LC08_L1TP_221067_20170926_20171013_01_T1_B5.TIF"
+filename_red = r"LC08_L1TP_221067_20170926_20171013_01_T1_B4.TIF"
 
-filename_nir =path+"LC08_L1TP_221067_20170926_20171013_01_T1_B5.TIF"
-filename_red = path+"LC08_L1TP_221067_20170926_20171013_01_T1_B3.TIF"
-
-
+print ("Abrindo os arquivos: " + filename_nir + " e " + filename_red)
 
 try:
     dataset_nir = gdal.Open(filename_nir)
@@ -58,14 +57,13 @@ except:
 band_nir = dataset_nir.GetRasterBand(1)
 band_red = dataset_red.GetRasterBand(1)
 
-
 # Mostra os tipos de dados
-
-
+print ("Tipos de dados:")
+print (" - banda NIR:", gdal.GetDataTypeName(banda_nir.DataType))
+print (" - banda RED:", gdal.GetDataTypeName(banda_red.DataType))
 
 
 # Transfoma em um array numpy para realizar as operacoes
-
 array_red = band_red.ReadAsArray().astype(np.float64)
 array_nir = band_nir.ReadAsArray().astype(np.float64)
 
@@ -76,12 +74,11 @@ array_nir = band_nir.ReadAsArray().astype(np.float64)
 # permite a divisao por zero
 np.seterr(divide='ignore', invalid='ignore')
 
-array_ndvi = ndvi_calculate(array_red, array_nir)
+array_ndvi = ndvi_calculate(array_nir, array_red)
 array_ndvi = array_ndvi.astype(np.float32)
 
-
 # salva_arquivo(array_ndvi, dataset_nir)
-#
+
 plt.imshow(array_ndvi, cmap='RdYlGn')
 plt.colorbar()
 plt.show()
