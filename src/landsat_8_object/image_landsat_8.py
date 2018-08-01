@@ -4,12 +4,11 @@ import numpy as np
 from fiona._err import GDALError
 from osgeo import gdal
 import re
-import shutil
-import matplotlib.pyplot as plt
+
 
 class image_landsat_8:
 
-    def __init__(self, filepath):
+    def __init__(self, filepath, grid_file=None):
         np.seterr(divide='ignore', invalid='ignore')
         self.file_directory = os.path.dirname(filepath)
         self.compact_file_name = os.path.basename(filepath)
@@ -17,18 +16,35 @@ class image_landsat_8:
         self.compressed_file_name = regex.group(1)
         self.compressed_type = regex.group(2)
 
+        ##Colocar somente a pasta e procurar somente os arquivos
+        #caso tiver zip descompactar e não deletar as pastas
+        ##Se basear em um nome padrao? O usuário que passa?
+
+        ##Alterar o código para criar as pastas no repositorio do projeto
         try:
             file_tmp = self.file_directory + "/tmp_" + self.compressed_file_name
-            os.makedirs(file_tmp)
-            self.directory_tmp = file_tmp
+            # os.makedirs(file_tmp)
+            self.directory_tmp = file_tmp + "/"
         except OSError:
             raise
 
-        self.__zip_descomp__(filepath, self.directory_tmp, self.compressed_type)
-        self.pattern_path = self.directory_tmp + "/" + self.compressed_file_name + "_"
+        # self.__zip_descomp__(filepath, self.directory_tmp, self.compressed_type)
+        self.pattern_path = self.directory_tmp + self.compressed_file_name + "_"
+        # if(grid_file != None):
+        #     self.__cut__(self.directory_tmp, grid_file)
 
-    def __del__(self):
-        shutil.rmtree(self.directory_tmp)
+    # def __del__(self):
+    #     shutil.rmtree(self.directory_tmp)
+
+    def __cut__(self, directory, grid_file):
+        for file in os.listdir(directory):
+            regex = re.search("(.*).TIF$", file)
+            if (regex != None):
+                self.__cut_gdal__(grid_file, directory + file, directory + regex.group(1) + "_CUT.TIF")
+
+    def __cut_gdal__(self, grid_file, tiff_file, new_tiff_file):
+        os.system("gdalwarp -overwrite -q -cutline " + grid_file
+                  + " -tr 30.0 30.0 -of GTiff " + tiff_file + " " + new_tiff_file)
 
     def __zip_descomp__(self, compressed_path, tmp_dir, compressed_type):
 
@@ -45,11 +61,13 @@ class image_landsat_8:
         obj_gdal = gdal.Open(self.pattern_path + "B4.TIF")
         return obj_gdal.GetRasterBand(1).ReadAsArray()
 
-    def get_band_6(self):
-        return gdal.Open(self.pattern_path + "B6.TIF").GetRasterBand(1)
+    def get_band_swir_1(self):
+        obj_gdal = gdal.Open(self.pattern_path + "B6.TIF")
+        return obj_gdal.GetRasterBand(1).ReadAsArray()
 
-    def get_band_7(self):
-        return gdal.Open(self.pattern_path + "B7.TIF").GetRasterBand(1)
+    def get_band_swir_2(self):
+        obj_gdal = gdal.Open(self.pattern_path + "B7.TIF")
+        return obj_gdal.GetRasterBand(1).ReadAsArray()
 
     def get_raster_min_max(self, band):
         try:
@@ -61,6 +79,19 @@ class image_landsat_8:
         return "Size is {} x {} x {}".format(band.RasterXSize,
                                              band.RasterYSize, band.RasterCount)
 
+    # def mirb(self):
+    #     return ((10 * self.get_band_swir_2()) -\
+    #            (9.8 * self.get_band_swir_1()) + 2)
+
+    def mirb(self, band_swir_1, band_swir_2):
+        return (10 * band_swir_2) - (9.8 * band_swir_1) + 2
+
+    # def ndvi(self):
+    #     band_red = self.get_band_red().astype(np.float64)
+    #     band_nir = self.get_band_nir().astype(np.float64)
+    #
+    #     return ((band_nir - band_red) / (band_nir + band_red)).astype(np.float32)
+
     def ndvi(self, band_red, band_nir):
 
         band_red = band_red.astype(np.float64)
@@ -68,31 +99,29 @@ class image_landsat_8:
 
         return ((band_nir - band_red) / (band_nir + band_red)).astype(np.float32)
 
+    def to_img(self, spectral_index, directory, geotransform,
+               projection):
 
-    def ndvi_to_img(self, array_ndvi, directory, geotransform,
-                    projection):
+        self.__save_file__(spectral_index, directory, geotransform, projection)
 
-        self.__save_file__(array_ndvi, directory, geotransform, projection)
-
-
-    def __save_file__(self, array_ndvi, directory, geotransform, projection):
+    def __save_file__(self, spectral_index, directory, geotransform, projection):
 
         geotiff = gdal.GetDriverByName('GTiff')
-        dataset_output = geotiff.Create(directory, np.size(array_ndvi, 1), np.size(array_ndvi, 0), 1,
+        dataset_output = geotiff.Create(directory, np.size(spectral_index, 1), np.size(spectral_index, 0), 1,
                                         gdal.GDT_Float32)
 
         dataset_output.SetGeoTransform(geotransform)
         dataset_output.SetProjection(projection)
-        dataset_output.GetRasterBand(1).WriteArray(array_ndvi)
+        dataset_output.GetRasterBand(1).WriteArray(spectral_index)
         dataset_output.FlushCache()
 
 
 a = image_landsat_8("/home/rafael/Desktop/dados_queimadas" \
                     "/landsat_8/LC08_L1TP_221067_" \
-                    "20170926_20171013_01_T1.tar.gz")
+                    "20170926_20171013_01_T1.tar.gz",
+                    "/home/rafael/Desktop/dados_queimadas/landsat_8/out_grade/out_221_067_grade.shp")
 
-
-#Exemplo
+# Exemplo
 # red = a.get_band_red()
 # nir = a.get_band_nir()
 #
