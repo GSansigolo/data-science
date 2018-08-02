@@ -24,16 +24,16 @@ class image_landsat_8:
         ##Alterar o código para criar as pastas no repositorio do projeto
         try:
             file_tmp = self.file_directory + "/tmp_" + self.compressed_file_name
-            # os.makedirs(file_tmp)
+            os.makedirs(file_tmp)
             self.directory_tmp = file_tmp + "/"
         except OSError:
             raise
 
-        # self.__zip_descomp__(filepath, self.directory_tmp, self.compressed_type)
+        self.__zip_descomp__(filepath, self.directory_tmp, self.compressed_type)
         self.pattern_path = self.directory_tmp + self.compressed_file_name + "_"
-        # if(grid_file != None):
-        #     self.__cut__(self.directory_tmp, grid_file)
-
+        if(grid_file != None):
+            self.__cut__(self.directory_tmp, grid_file)
+    #
     # def __del__(self):
     #     shutil.rmtree(self.directory_tmp)
 
@@ -45,8 +45,10 @@ class image_landsat_8:
 
     def __cut_gdal__(self, grid_file, tiff_file, new_tiff_file):
         os.system("gdalwarp -overwrite -q -cutline " + grid_file
-                  + " -tr 30.0 30.0 -of GTiff " + tiff_file + " " + new_tiff_file)
+                  + " -of GTiff " + tiff_file + " " + new_tiff_file)
 
+    def cut(self, banda, grid_file, new_tiff_file):
+        self.__cut_gdal__(grid_file, banda, new_tiff_file)
 
     def __zip_descomp__(self, compressed_path, tmp_dir, compressed_type):
 
@@ -59,11 +61,11 @@ class image_landsat_8:
         return self.pattern_path
 
     def get_band_nir(self):
-        obj_gdal = gdal.Open(self.pattern_path + "B5.TIF")
+        obj_gdal = gdal.Open(self.pattern_path + "B5_CUT.TIF")
         return obj_gdal.GetRasterBand(1).ReadAsArray()
 
     def get_band_red(self):
-        obj_gdal = gdal.Open(self.pattern_path + "B4.TIF")
+        obj_gdal = gdal.Open(self.pattern_path + "B4_CUT.TIF")
         return obj_gdal.GetRasterBand(1).ReadAsArray()
 
     def get_band_swir_1(self):
@@ -100,10 +102,10 @@ class image_landsat_8:
 
     def ndvi(self, band_red, band_nir):
 
-        band_red = band_red.astype(np.float64)
-        band_nir = band_nir.astype(np.float64)
+        band_red = band_red.astype(np.float32)
+        band_nir = band_nir.astype(np.float32)
 
-        return ((band_nir - band_red) / (band_nir + band_red)).astype(np.float32)
+        return ((band_nir - band_red) / (band_nir + band_red))
 
     def to_img(self, spectral_index, directory, geotransform,
                projection):
