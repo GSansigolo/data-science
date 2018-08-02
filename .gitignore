@@ -1,6 +1,6 @@
 
 \.ipynb_checkpoints/
-
+\.idea
 *.dbf
 
 *.shx
@@ -16,3 +16,7 @@ data-tif/
 data-shp/
 
 *.gz
+
+src/cloud-mask/\.jupyter/
+
+src/cloud-mask/outfile\.jpg

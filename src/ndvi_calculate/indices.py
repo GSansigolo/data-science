@@ -57,11 +57,6 @@ except:
 band_nir = dataset_nir.GetRasterBand(1)
 band_red = dataset_red.GetRasterBand(1)
 
-# Mostra os tipos de dados
-print ("Tipos de dados:")
-print (" - banda NIR:", gdal.GetDataTypeName(banda_nir.DataType))
-print (" - banda RED:", gdal.GetDataTypeName(banda_red.DataType))
-
 
 # Transfoma em um array numpy para realizar as operacoes
 array_red = band_red.ReadAsArray().astype(np.float64)

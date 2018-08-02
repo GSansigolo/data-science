@@ -110,3 +110,16 @@ print(re.search("(.*?).((tar.gz)|(zip))", os.path.basename(path)))
 
 #
 # print()
+
+# a = image_landsat_8("/home/rafael/Desktop/dados_queimadas" \
+#                     "/landsat_8/LC08_L1TP_221067_" \
+#                     "20170926_20171013_01_T1.tar.gz",
+#                     "/home/rafael/Desktop/dados_queimadas/landsat_8/out_grade/out_221_067_grade.shp")
+
+# Exemplo
+# red = a.get_band_red()
+# nir = a.get_band_nir()
+#
+# plt.imshow(a.ndvi(red, nir), cmap='RdYlGn')
+# plt.colorbar()
+# plt.show()

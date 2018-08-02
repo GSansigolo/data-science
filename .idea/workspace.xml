@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cd91233c-8644-4800-935d-ea142df8e065" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/cloud-mask/cloud-mask.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cloud-mask/cloud-mask.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/landsat_8_object/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/landsat_8_object/image_landsat_8.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/landsat_8_object/image_landsat_8.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/landsat_8_object/test/enew.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/landsat_8_object/test/enew.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mirbi_calculate/MIRBI.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mirbi_calculate/MIRBI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ndvi_calculate/indices.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ndvi_calculate/indices.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,123 +22,80 @@
     <session id="-239973116">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.20" value="1" />
+          <entry key="project.open.time.28" value="1" />
           <entry key="project.open.time.30" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="2291" />
+          <entry key="py" value="2326" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="2291" />
+          <entry key="Python" value="2326" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gitignore" value="1" />
-          <entry key="py" value="9" />
+          <entry key="py" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="9" />
+          <entry key="Python" value="12" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5615041">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/landsat_8_object/image_landsat_8.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="216">
-                  <caret line="20" column="59" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
-                  <folding>
-                    <element signature="e#0#9#0" expanded="true" />
-                    <marker date="1533162157049" expanded="true" signature="1385:1619" ph="..." />
-                    <marker date="1533162157049" expanded="true" signature="1827:1833" ph="..." />
-                    <marker date="1533162157049" expanded="true" signature="3141:3150" ph="..." />
-                    <marker date="1533162157049" expanded="true" signature="3201:3440" ph="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/import-shape/import-shape.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="624">
-                  <caret line="26" column="63" selection-start-line="16" selection-start-column="4" selection-end-line="26" selection-end-column="63" />
-                  <folding>
-                    <element signature="e#53#76#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/import-shape/enew.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="456">
-                  <caret line="108" column="65" selection-start-line="108" selection-start-column="65" selection-end-line="108" selection-end-column="65" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/.gitignore">
-              <provider selected="true" editor-type-id="text-editor" />
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/ndvi_calculate/indices.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1320">
-                  <caret line="64" selection-start-line="64" selection-end-line="64" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/mirbi_calculate/MIRBI.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="672">
-                  <caret line="37" selection-start-line="37" selection-end-line="38" />
-                  <folding>
-                    <element signature="e#0#22#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/mirbi_calculate/MIRBI.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="528">
-                  <caret line="22" column="10" lean-forward="true" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
-                  <folding>
-                    <element signature="e#0#22#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/landsat_8_object/image_landsat_8.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1176">
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ndvi_calculate/indices.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="8" selection-start-line="8" selection-end-line="8" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/landsat_8_object/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="43" selection-start-column="43" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/landsat_8_object/test/enew.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2544">
+              <caret line="106" column="1" lean-forward="true" selection-start-line="106" selection-start-column="1" selection-end-line="106" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -159,7 +123,9 @@
         <option value="$PROJECT_DIR$/src/ndvi_calculate/indices.py" />
         <option value="$PROJECT_DIR$/src/import-shape/import-shape.py" />
         <option value="$PROJECT_DIR$/src/import-shape/enew.py" />
+        <option value="$PROJECT_DIR$/src/landsat_8_object/test/enew.py" />
         <option value="$PROJECT_DIR$/src/landsat_8_object/image_landsat_8.py" />
+        <option value="$PROJECT_DIR$/src/landsat_8_object/main.py" />
       </list>
     </option>
   </component>
@@ -199,6 +165,13 @@
               <item name="CAP-240-394" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="landsat_8_object" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CAP-240-394" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CAP-240-394" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="landsat_8_object" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="CAP-240-394" type="b2602c69:ProjectViewProjectNode" />
@@ -380,12 +353,12 @@
     <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.17527087" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17523494" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49973047" visible="true" weight="0.25209206" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49973047" weight="0.25209206" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39956802" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -471,53 +444,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ndvi_calculate/indices.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1320">
-          <caret line="64" selection-start-line="64" selection-end-line="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mirbi_calculate/MIRBI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="37" selection-start-line="37" selection-end-line="38" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="528">
+          <caret line="22" column="10" lean-forward="true" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/import-shape/import-shape.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="26" column="63" selection-start-line="16" selection-start-column="4" selection-end-line="26" selection-end-column="63" />
-          <folding>
-            <element signature="e#53#76#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="384">
+          <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/import-shape/enew.py">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/import-shape/enew.py" />
+    <entry file="file://$PROJECT_DIR$/src/landsat_8_object/test/enew.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="108" column="65" selection-start-line="108" selection-start-column="65" selection-end-line="108" selection-end-column="65" />
+        <state relative-caret-position="2544">
+          <caret line="106" column="1" lean-forward="true" selection-start-line="106" selection-start-column="1" selection-end-line="106" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ndvi_calculate/indices.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="8" selection-start-line="8" selection-end-line="8" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/landsat_8_object/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="43" selection-start-column="43" selection-end-column="43" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/landsat_8_object/image_landsat_8.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="20" column="59" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
+        <state relative-caret-position="1176">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <marker date="1533162157049" expanded="true" signature="1385:1619" ph="..." />
-            <marker date="1533162157049" expanded="true" signature="1827:1833" ph="..." />
-            <marker date="1533162157049" expanded="true" signature="3141:3150" ph="..." />
-            <marker date="1533162157049" expanded="true" signature="3201:3440" ph="..." />
           </folding>
         </state>
       </provider>

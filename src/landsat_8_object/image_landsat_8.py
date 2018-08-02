@@ -1,9 +1,10 @@
 import os
 import tarfile
 import numpy as np
-from fiona._err import GDALError
+# from fiona._err import GDALError
 from osgeo import gdal
 import re
+import matplotlib.pyplot as plt
 
 
 class image_landsat_8:
@@ -46,12 +47,16 @@ class image_landsat_8:
         os.system("gdalwarp -overwrite -q -cutline " + grid_file
                   + " -tr 30.0 30.0 -of GTiff " + tiff_file + " " + new_tiff_file)
 
+
     def __zip_descomp__(self, compressed_path, tmp_dir, compressed_type):
 
         # if(compressed_type == "tar.gz")
         tar = tarfile.open(compressed_path)
         tar.extractall(tmp_dir)
         tar.close()
+
+    def get_directory_tmp(self):
+        return self.pattern_path
 
     def get_band_nir(self):
         obj_gdal = gdal.Open(self.pattern_path + "B5.TIF")
@@ -70,10 +75,11 @@ class image_landsat_8:
         return obj_gdal.GetRasterBand(1).ReadAsArray()
 
     def get_raster_min_max(self, band):
-        try:
-            return band.ComputeRasterMinMax()
-        except GDALError:
-            raise ("BAND IS OBJECT GDAL?")
+        return band.ComputeRasterMinMax()
+        # try:
+        #     return band.ComputeRasterMinMax()
+        # except GDALError:
+        #     raise ("BAND IS OBJECT GDAL?")
 
     def size_of_band(self, band):
         return "Size is {} x {} x {}".format(band.RasterXSize,
@@ -104,7 +110,9 @@ class image_landsat_8:
 
         self.__save_file__(spectral_index, directory, geotransform, projection)
 
+
     def __save_file__(self, spectral_index, directory, geotransform, projection):
+
 
         geotiff = gdal.GetDriverByName('GTiff')
         dataset_output = geotiff.Create(directory, np.size(spectral_index, 1), np.size(spectral_index, 0), 1,
@@ -115,16 +123,10 @@ class image_landsat_8:
         dataset_output.GetRasterBand(1).WriteArray(spectral_index)
         dataset_output.FlushCache()
 
+        dataset_output = None
 
-a = image_landsat_8("/home/rafael/Desktop/dados_queimadas" \
-                    "/landsat_8/LC08_L1TP_221067_" \
-                    "20170926_20171013_01_T1.tar.gz",
-                    "/home/rafael/Desktop/dados_queimadas/landsat_8/out_grade/out_221_067_grade.shp")
+    def plot_image(self, band):
 
-# Exemplo
-# red = a.get_band_red()
-# nir = a.get_band_nir()
-#
-# plt.imshow(a.ndvi(red, nir), cmap='RdYlGn')
-# plt.colorbar()
-# plt.show()
+        plt.imshow(band, cmap='RdYlGn')
+        plt.colorbar()
+        plt.show()
