@@ -64,6 +64,9 @@ plt.imshow(mask, cmap='gray')
 plt.colorbar()
 plt.show()
 
+# Fix
+mask[mask < 1] = 1
+
 # Salve
 filename_output = "data/LC08_L1TP_221067_20170926_20171013_01_T1_CLD.TIF"
 geotiff = gdal.GetDriverByName('GTiff')

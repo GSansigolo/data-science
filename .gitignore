@@ -22,3 +22,5 @@ src/cloud-mask/\.jupyter/
 src/cloud-mask/outfile\.jpg
 
 src/cloud-mask/data/
+
+*.xml
