@@ -10,10 +10,10 @@ except:
 	exit()
 
 mascara1 = nuvem1.GetRasterBand(1).ReadAsArray().astype(np.int8)
-mascara2 = nuvem2.GetRasterBand(1).ReadAsArray().astype(np.float32)
+mascara2 = nuvem2.GetRasterBand(1).ReadAsArray().astype(np.int8)
 
 nuvem2 = np.sum(mascara2==1)
-limpa1 = np.sum(mascara1==0)
+limpa1 = np.sum(mascara1==1)
 
 tamanho_imagem1 = mascara1.shape[0] * mascara1.shape[1]
 tamanho_imagem2 = mascara2.shape[0] * mascara2.shape[1]
@@ -25,7 +25,6 @@ print("")
 
 print("Porcentagem Nuvem (Mascara): %.2f" %(100-cloud_mask) )
 print("Porcentagem Nuvem (Exemplo): %.2f" %(100-nuvem) )
-
 
 print("")
 
