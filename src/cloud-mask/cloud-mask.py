@@ -65,12 +65,12 @@ plt.colorbar()
 plt.show()
 
 # Fix
-mask = np.select([mask <= 0, mask>1], [np.ones_like(mask), np.zeros_like(mask)])
+mask = np.select([mask <= 0, mask>=1], [np.ones_like(mask), np.full_like(mask, 3, dtype=np.int8)])
 
 # Save
 filename_output = "data/LC08_L1TP_221067_20170926_20171013_01_T1_CLD.TIF"
 geotiff = gdal.GetDriverByName('GTiff')
-dataset_output = geotiff.Create(filename_output, B3.RasterXSize, B3.RasterYSize, 1, gdal.GDT_Float32)
+dataset_output = geotiff.Create(filename_output, B3.RasterXSize, B3.RasterYSize, 1, gdal.GDT_Int16)
 dataset_output.SetGeoTransform(B3.GetGeoTransform())
 dataset_output.SetProjection(B3.GetProjectionRef())
 dataset_output.GetRasterBand(1).WriteArray(mask)
