@@ -5,6 +5,7 @@ import numpy as np
 from osgeo import gdal
 import re
 import matplotlib.pyplot as plt
+import shutil
 
 
 class image_landsat_8:
@@ -33,11 +34,12 @@ class image_landsat_8:
         self.pattern_path = self.directory_tmp + self.compressed_file_name + "_"
         if(grid_file != None):
             self.__cut__(self.directory_tmp, grid_file)
-    #
-    # def __del__(self):
-    #     shutil.rmtree(self.directory_tmp)
+
+    def __del__(self):
+        shutil.rmtree(self.directory_tmp)
 
     def __cut__(self, directory, grid_file):
+        print("Cortando os arquivos..")
         for file in os.listdir(directory):
             regex = re.search("(.*).TIF$", file)
             if (regex != None):
@@ -53,6 +55,7 @@ class image_landsat_8:
     def __zip_descomp__(self, compressed_path, tmp_dir, compressed_type):
 
         # if(compressed_type == "tar.gz")
+        print("Descompactando...")
         tar = tarfile.open(compressed_path)
         tar.extractall(tmp_dir)
         tar.close()
@@ -61,11 +64,11 @@ class image_landsat_8:
         return self.pattern_path
 
     def get_band_nir(self):
-        obj_gdal = gdal.Open(self.pattern_path + "B5_CUT.TIF")
+        obj_gdal = gdal.Open(self.pattern_path + "B5.TIF")
         return obj_gdal.GetRasterBand(1).ReadAsArray()
 
     def get_band_red(self):
-        obj_gdal = gdal.Open(self.pattern_path + "B4_CUT.TIF")
+        obj_gdal = gdal.Open(self.pattern_path + "B4.TIF")
         return obj_gdal.GetRasterBand(1).ReadAsArray()
 
     def get_band_swir_1(self):
@@ -74,6 +77,10 @@ class image_landsat_8:
 
     def get_band_swir_2(self):
         obj_gdal = gdal.Open(self.pattern_path + "B7.TIF")
+        return obj_gdal.GetRasterBand(1).ReadAsArray()
+
+    def get_band(self, path):
+        obj_gdal = gdal.Open(path)
         return obj_gdal.GetRasterBand(1).ReadAsArray()
 
     def get_raster_min_max(self, band):
@@ -105,7 +112,10 @@ class image_landsat_8:
         band_red = band_red.astype(np.float32)
         band_nir = band_nir.astype(np.float32)
 
-        return ((band_nir - band_red) / (band_nir + band_red))
+        # return ((band_nir - band_red) / (band_nir + band_red))
+        # return ((band_nir - band_red) / (band_nir + band_red)).astype(np.uint32)
+
+        return np.ma.divide((band_nir - band_red), (band_nir + band_red)  )
 
     def to_img(self, spectral_index, directory, geotransform,
                projection):
@@ -115,7 +125,7 @@ class image_landsat_8:
 
     def __save_file__(self, spectral_index, directory, geotransform, projection):
 
-
+        print("Salvando arquivos...")
         geotiff = gdal.GetDriverByName('GTiff')
         dataset_output = geotiff.Create(directory, np.size(spectral_index, 1), np.size(spectral_index, 0), 1,
                                         gdal.GDT_Float32)
