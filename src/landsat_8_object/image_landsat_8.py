@@ -47,8 +47,8 @@ class image_landsat_8:
                 self.__cut_gdal__(grid_file, directory + file, directory + regex.group(1) + "_CUT.TIF")
 
     def __cut_gdal__(self, grid_file, tiff_file, new_tiff_file):
-        os.system("gdalwarp -overwrite -s_srs EPSG:32623 -q -cutline " + grid_file
-                  + " -dstalpha -of GTiff " + tiff_file + " " + new_tiff_file)
+       os.system("gdalwarp -overwrite -q -cutline " + grid_file
+                  + " -crop_to_cutline -tr 30.0 30.0 " + tiff_file + " " + new_tiff_file)
 
     def cut(self, banda, grid_file, new_tiff_file):
         self.__cut_gdal__(grid_file, banda, new_tiff_file)

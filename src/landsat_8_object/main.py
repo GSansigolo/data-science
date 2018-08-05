@@ -70,12 +70,12 @@ landsat_images_after.to_img(band_ndvi_after, file_path_out_after, dataset_after.
 landsat_images_before.cut(file_path_out_before, file_path_grade, file_path_out_before_cut)
 landsat_images_after.cut(file_path_out_after, file_path_grade, file_path_out_after_cut)
 
-band_ndvi_before_cut = landsat_images_before.get_band(file_path_out_before_cut)
-band_ndvi_after_cut = landsat_images_after.get_band(file_path_out_after_cut)
+# band_ndvi_before_cut = landsat_images_before.get_band(file_path_out_before_cut)
+# band_ndvi_after_cut = landsat_images_after.get_band(file_path_out_after_cut)
 
-print("DEPOIS DE CORTAR")
-print(band_ndvi_before_cut.shape)
-print(band_ndvi_after_cut.shape)
+# print("DEPOIS DE CORTAR")
+# print(band_ndvi_before_cut.shape)
+# print(band_ndvi_after_cut.shape)
 
 
 #
