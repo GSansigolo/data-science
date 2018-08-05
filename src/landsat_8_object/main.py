@@ -16,6 +16,7 @@ file_path_out_after = "../data/NDVI/NDVI_221067_20170926.TIF"
 file_path_out_before_cut = "../data/NDVI/CUT_NDVI_221067_20170910.TIF"
 file_path_out_after_cut = "../data/NDVI/CUT_NDVI_221067_20170926.TIF"
 
+file_path_out_dif_ndvi = "../data/NDVI/diferenca_NDVI.TIF"
 
 landsat_images_before = image_landsat_8(file_path_tar_before, file_path_grade)
 landsat_images_after = image_landsat_8(file_path_tar_after, file_path_grade)
@@ -32,25 +33,10 @@ band_red_after = landsat_images_after.calculo_reflectancia(band_red_after, 62.61
 band_nir_after = landsat_images_after.get_band_nir()
 band_nir_after = landsat_images_after.calculo_reflectancia(band_nir_after, 62.61676121)
 
-print("Antes do NDVI")
-print("BEFORE")
-print(band_red_before.shape)
-print(band_nir_before.shape)
-print("AFTER")
-print(band_red_after.shape)
-print(band_nir_after.shape)
-
-
 # ----------------- CALCULA NDVI ------------------------- #
 
 band_ndvi_before = landsat_images_before.ndvi(band_red_before, band_nir_before)
 band_ndvi_after = landsat_images_after.ndvi(band_red_after, band_nir_after)
-
-print("Depois do NDVI")
-print("BEFORE")
-print(band_ndvi_before.shape)
-print("AFTER")
-print(band_ndvi_after.shape)
 
 # ---------------------------------------------#
 
@@ -66,18 +52,33 @@ dataset_after = gdal.Open(landsat_images_after.get_directory_tmp() + "B5.TIF")
 landsat_images_before.to_img(band_ndvi_before, file_path_out_before, dataset_before.GetGeoTransform(), dataset_before.GetProjectionRef())
 landsat_images_after.to_img(band_ndvi_after, file_path_out_after, dataset_after.GetGeoTransform(), dataset_after.GetProjectionRef())
 
-# Salvando ndvi cortada
+# Corta a Imagem do NDVI
 landsat_images_before.cut(file_path_out_before, file_path_grade, file_path_out_before_cut)
 landsat_images_after.cut(file_path_out_after, file_path_grade, file_path_out_after_cut)
 
-# band_ndvi_before_cut = landsat_images_before.get_band(file_path_out_before_cut)
-# band_ndvi_after_cut = landsat_images_after.get_band(file_path_out_after_cut)
+band_ndvi_before_cut = landsat_images_before.get_band(file_path_out_before_cut)
+band_ndvi_after_cut = landsat_images_after.get_band(file_path_out_after_cut)
 
-# print("DEPOIS DE CORTAR")
-# print(band_ndvi_before_cut.shape)
-# print(band_ndvi_after_cut.shape)
+print("DEPOIS DE CORTAR")
+print(band_ndvi_before_cut.shape)
+print(band_ndvi_after_cut.shape)
+
+# ------------ CALCULA A DIFERENCA DAS BANDAS --------------- #
+
+print("Calculando a Diferenca.. e salvando a imagem .tif")
+
+dataset = gdal.Open(file_path_out_before_cut)
+
+dif_ndvi = (band_ndvi_after_cut - band_ndvi_before_cut)
+# landsat_images_after.plot_image(dif_ndvi)
+landsat_images_after.to_img(dif_ndvi, file_path_out_dif_ndvi, dataset.GetGeoTransform(), dataset.GetProjectionRef())
+
+# Calcula a diferenca relatica
+rel_ndvi = dif_ndvi / abs(band_ndvi_before_cut)
+
+landsat_images_after.to_img(rel_ndvi, "../data/NDVI/ndvi_dif_relativa.TIF", dataset.GetGeoTransform(), dataset.GetProjectionRef())
+
+# Aplica o Filtro de mediana
 
 
-#
-# landsat_images_after.plot_image(dif_band)
-# landsat_images_after.plot_image(dif_band2)
+
