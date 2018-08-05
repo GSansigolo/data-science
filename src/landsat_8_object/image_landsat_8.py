@@ -6,6 +6,7 @@ from osgeo import gdal
 import re
 import matplotlib.pyplot as plt
 import shutil
+import math
 
 
 class image_landsat_8:
@@ -46,8 +47,8 @@ class image_landsat_8:
                 self.__cut_gdal__(grid_file, directory + file, directory + regex.group(1) + "_CUT.TIF")
 
     def __cut_gdal__(self, grid_file, tiff_file, new_tiff_file):
-        os.system("gdalwarp -overwrite -q -cutline " + grid_file
-                  + " -of GTiff " + tiff_file + " " + new_tiff_file)
+        os.system("gdalwarp -overwrite -s_srs EPSG:32623 -q -cutline " + grid_file
+                  + " -dstalpha -of GTiff " + tiff_file + " " + new_tiff_file)
 
     def cut(self, banda, grid_file, new_tiff_file):
         self.__cut_gdal__(grid_file, banda, new_tiff_file)
@@ -117,28 +118,53 @@ class image_landsat_8:
 
         return np.ma.divide((band_nir - band_red), (band_nir + band_red)  )
 
-    def to_img(self, spectral_index, directory, geotransform,
-               projection):
+    def to_img(self, spectral_index, directory, geotransform, projection):
 
-        self.__save_file__(spectral_index, directory, geotransform, projection)
+        self.__save_file__(spectral_index, directory ,geotransform, projection)
 
 
     def __save_file__(self, spectral_index, directory, geotransform, projection):
 
         print("Salvando arquivos...")
+
+
+        # target_ds = gdal.GetDriverByName('GTiff').Create(directory, x_res, y_res, gdal.GDT_Float32)
+        # target_ds.SetGeoTransform((x_min, pixel_size, 0, y_max, 0, -pixel_size))
+        # target_ds.SetProjection(projection)
+        # band = target_ds.GetRasterBand(1)
+        # band.SetNoDataValue(-9999)
+        # band.WriteArray(spectral_index)
+
+        # target_ds = None
+
+
         geotiff = gdal.GetDriverByName('GTiff')
         dataset_output = geotiff.Create(directory, np.size(spectral_index, 1), np.size(spectral_index, 0), 1,
                                         gdal.GDT_Float32)
 
+
+        
         dataset_output.SetGeoTransform(geotransform)
         dataset_output.SetProjection(projection)
         dataset_output.GetRasterBand(1).WriteArray(spectral_index)
         dataset_output.FlushCache()
 
         dataset_output = None
-
+  
     def plot_image(self, band):
 
         plt.imshow(band, cmap='RdYlGn')
         plt.colorbar()
         plt.show()
+
+    def calculo_reflectancia(self, mascara, elevation):
+        refmcoefs = 0.00002
+        refacoefs = -0.1
+        
+        return (
+               np.ma.masked_equal(
+                   mascara, 0
+               ) * refmcoefs + refacoefs
+           ) * (
+               1 / math.sin(math.radians(elevation))
+           )
