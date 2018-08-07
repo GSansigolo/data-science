@@ -2,8 +2,8 @@ from osgeo import gdal
 import numpy as np
 
 try:
-	nuvem1 = gdal.Open("data/LC08_L1TP_221067_20170926_20171013_01_T1_CLD.TIF")
-	nuvem2 = gdal.Open("data/221_067_2017-01-13_nuvem.tif")
+	nuvem1 = gdal.Open("data-out/LC08_L1TP_221067_20170926_20171013_01_T1_CLD.TIF")
+	nuvem2 = gdal.Open("data-out/221_067_2017-01-13_nuvem.tif")
 	print ("Arquivos aberto com sucesso!")
 except:
 	print("Erro na abertura dos arquivo!")
