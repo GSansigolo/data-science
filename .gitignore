@@ -24,3 +24,11 @@ src/cloud-mask/outfile\.jpg
 src/cloud-mask/data/
 
 *.xml
+
+src/landsat_8_object/__pycache__/
+
+src/landsat_8_object/test/
+
+src/cloud-mask/data-out/
+
+*.jpg
