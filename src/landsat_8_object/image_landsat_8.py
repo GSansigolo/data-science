@@ -19,11 +19,7 @@ class image_landsat_8:
         self.compressed_file_name = regex.group(1)
         self.compressed_type = regex.group(2)
 
-        ##Colocar somente a pasta e procurar somente os arquivos
-        #caso tiver zip descompactar e não deletar as pastas
-        ##Se basear em um nome padrao? O usuário que passa?
 
-        ##Alterar o código para criar as pastas no repositorio do projeto
         try:
             file_tmp = self.file_directory + "/tmp_" + self.compressed_file_name
             os.makedirs(file_tmp)
@@ -128,29 +124,19 @@ class image_landsat_8:
         print("Salvando arquivos...")
 
 
-        # target_ds = gdal.GetDriverByName('GTiff').Create(directory, x_res, y_res, gdal.GDT_Float32)
-        # target_ds.SetGeoTransform((x_min, pixel_size, 0, y_max, 0, -pixel_size))
-        # target_ds.SetProjection(projection)
-        # band = target_ds.GetRasterBand(1)
-        # band.SetNoDataValue(-9999)
-        # band.WriteArray(spectral_index)
-
-        # target_ds = None
-
-
         geotiff = gdal.GetDriverByName('GTiff')
         dataset_output = geotiff.Create(directory, np.size(spectral_index, 1), np.size(spectral_index, 0), 1,
                                         gdal.GDT_Float32)
 
 
-        
+
         dataset_output.SetGeoTransform(geotransform)
         dataset_output.SetProjection(projection)
         dataset_output.GetRasterBand(1).WriteArray(spectral_index)
         dataset_output.FlushCache()
 
         dataset_output = None
-  
+
     def plot_image(self, band):
 
         plt.imshow(band, cmap='RdYlGn')
@@ -160,7 +146,7 @@ class image_landsat_8:
     def calculo_reflectancia(self, mascara, elevation):
         refmcoefs = 0.00002
         refacoefs = -0.1
-        
+
         return (
                np.ma.masked_equal(
                    mascara, 0
