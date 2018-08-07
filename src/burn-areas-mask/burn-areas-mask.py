@@ -28,8 +28,9 @@ plt.colorbar()
 plt.show()
 
 # Convert to Float32
-img = imageio.imwrite('outfile.jpg', array_B1)
-img = cv2.imread('outfile.jpg')
+#img = imageio.imwrite('outfile.jpg', array_B1)
+#img = cv2.imread('outfile.jpg')
+img = cv2.imread("data-in/diferenca_NDVI.TIF")
 Z = img.reshape((-1,3))
 Z = np.float32(Z)
 
