@@ -9,7 +9,9 @@ import imageio
 import cv2
 
 try:
-	B1 = gdal.Open("data-in/diferenca_NDVI.TIF")
+	#B1 = gdal.Open("data-in/diferenca_NDVI.TIF")
+	#B1 = gdal.Open("data-in/ndvi_dif_relativa_mariano.TIF")
+	B1 = gdal.Open("data-in/ndvi_dif_relativa.TIF")
 	print ("Arquivos aberto com sucesso")
 except:
 	print("Erro na abertura dos arquivo")
@@ -22,15 +24,16 @@ band_1 = B1.GetRasterBand(1)
 array_B1 = band_1.ReadAsArray().astype(np.float32)
 print ("Bandas Convertidas")
 
+print(array_B1)
+
 # Plot
 plt.imshow(array_B1, cmap='RdYlGn')
 plt.colorbar()
 plt.show()
 
 # Convert to Float32
-#img = imageio.imwrite('outfile.jpg', array_B1)
-#img = cv2.imread('outfile.jpg')
-img = cv2.imread("data-in/diferenca_NDVI.TIF")
+img = imageio.imwrite('outfile.jpg', array_B1)
+img = cv2.imread('outfile.jpg')
 Z = img.reshape((-1,3))
 Z = np.float32(Z)
 
