@@ -22,18 +22,18 @@ class image_landsat_8:
 
         try:
             file_tmp = self.file_directory + "/tmp_" + self.compressed_file_name
-            os.makedirs(file_tmp)
+            # os.makedirs(file_tmp)
             self.directory_tmp = file_tmp + "/"
         except OSError:
             raise
 
-        self.__zip_descomp__(filepath, self.directory_tmp, self.compressed_type)
+        # self.__zip_descomp__(filepath, self.directory_tmp, self.compressed_type)
         self.pattern_path = self.directory_tmp + self.compressed_file_name + "_"
-        if(grid_file != None):
-            self.__cut__(self.directory_tmp, grid_file)
+        # if(grid_file != None):
+            # self.__cut__(self.directory_tmp, grid_file)
 
-    def __del__(self):
-        shutil.rmtree(self.directory_tmp)
+    # def __del__(self):
+    #     shutil.rmtree(self.directory_tmp)
 
     def __cut__(self, directory, grid_file):
         print("Cortando os arquivos..")
