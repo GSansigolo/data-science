@@ -91,7 +91,7 @@ def calcula_NDVI(file_path_grade,file_path_tar_before, file_path_tar_after):
 
     landsat_images_after.to_img(rel_ndvi, "../data/NDVI/NDVI_dif_relativa.TIF", dataset.GetGeoTransform(), dataset.GetProjectionRef())
 
-def calcula_mirb(file_path_grade,file_path_tar_before, file_path_tar_after):
+def calcula_MIRB(file_path_grade,file_path_tar_before, file_path_tar_after):
 
     print("Calculo do MIRB...")
 
@@ -213,7 +213,7 @@ def main():
     file_path_tar_after = "../data/LC08_L1TP_221067_20170926_20171013_01_T1.tar.gz"
 
     calcula_NDVI(file_path_grade,file_path_tar_before, file_path_tar_after)
-    calcula_mirb(file_path_grade,file_path_tar_before, file_path_tar_after)
+    calcula_MIRB(file_path_grade,file_path_tar_before, file_path_tar_after)
 
 
 if __name__ == '__main__':
