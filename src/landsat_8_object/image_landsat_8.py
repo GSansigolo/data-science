@@ -91,28 +91,31 @@ class image_landsat_8:
         return "Size is {} x {} x {}".format(band.RasterXSize,
                                              band.RasterYSize, band.RasterCount)
 
-    # def mirb(self):
-    #     return ((10 * self.get_band_swir_2()) -\
-    #            (9.8 * self.get_band_swir_1()) + 2)
+    def nbr2(self):
+        return (self.get_band_swir_2() - self.get_band_swir_1()) / (self.get_band_swir_2() + self.get_band_swir_1())
 
-    def mirb(self, band_swir_1, band_swir_2):
-        return (10 * band_swir_2) - (9.8 * band_swir_1) + 2
+    def mirb(self):
+        return ((10 * self.get_band_swir_2()) -\
+               (9.8 * self.get_band_swir_1()) + 2)
 
-    # def ndvi(self):
-    #     band_red = self.get_band_red().astype(np.float64)
-    #     band_nir = self.get_band_nir().astype(np.float64)
+    # def mirb(self, band_swir_1, band_swir_2):
+    #     return (10 * band_swir_2) - (9.8 * band_swir_1) + 2
+
+    def ndvi(self):
+        band_red = self.get_band_red().astype(np.float32)
+        band_nir = self.get_band_nir().astype(np.float32)
+
+        return ((band_nir - band_red) / (band_nir + band_red))
+
+    # def ndvi(self, band_red, band_nir):
     #
-    #     return ((band_nir - band_red) / (band_nir + band_red)).astype(np.float32)
-
-    def ndvi(self, band_red, band_nir):
-
-        band_red = band_red.astype(np.float32)
-        band_nir = band_nir.astype(np.float32)
-
-        # return ((band_nir - band_red) / (band_nir + band_red))
-        # return ((band_nir - band_red) / (band_nir + band_red)).astype(np.uint32)
-
-        return np.ma.divide((band_nir - band_red), (band_nir + band_red)  )
+    #     band_red = band_red.astype(np.float32)
+    #     band_nir = band_nir.astype(np.float32)
+    #
+    #     # return ((band_nir - band_red) / (band_nir + band_red))
+    #     # return ((band_nir - band_red) / (band_nir + band_red)).astype(np.uint32)
+    #
+    #     return np.ma.divide((band_nir - band_red), (band_nir + band_red)  )
 
     def to_img(self, spectral_index, directory, geotransform, projection):
 
