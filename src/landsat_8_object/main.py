@@ -40,8 +40,6 @@ def indice_calculate(indice, file_path_tar, file_path_grade, directory_out):
 
     file_path_out_cut = indice_path +  "data_CUT" + "_.TIF"
 
-    # file_path_out_dif_ndvi = indice_path + "_diferenca.TIF"
-    # file_path_out_dif_rel_ndvi = indice_path +   "_REL_diferenca.TIF"
 
     landsat_images = image_landsat_8(file_path_tar, file_path_grade)
 
@@ -74,23 +72,30 @@ def indice_calculate(indice, file_path_tar, file_path_grade, directory_out):
     print("DEPOIS DE CORTAR")
     print(band_cut.shape)
 
-    #
-    # # ------------ CALCULA A DIFERENCA DAS BANDAS --------------- #
-    #
-    # print("Calculando a Diferenca.. e salvando a imagem .tif")
-    #
-    # dif_ndvi = (band_ndvi_after_cut - band_ndvi_before_cut)
-    #
-    # save_image(file_path_out_before_cut, dif_ndvi, file_path_out_dif_ndvi)
-    #
-    # # Calcula a diferenca relativa verificar
-    # rel_ndvi = dif_ndvi / abs(band_ndvi_before_cut)
-    #
-    # save_image(file_path_out_before_cut, rel_ndvi, file_path_out_dif_rel_ndvi)
-
     print( "Calculo " + indice + " FINALIZADO !")
-    return file_path_out_cut
+    return indice_path, band_cut, landsat_images
 
+def calcula_diferenca(landsat_images, indice_path, before, after):
+
+    # print ("Teste passagem")
+    # print(before.shape)
+    # print(before.shape)
+
+    file_path_out_diferenca = indice_path + "_diferenca.TIF"
+    file_path_out_diferenca_relativa = indice_path +   "_REL_diferenca.TIF"
+
+    # ------------ CALCULA A DIFERENCA DAS BANDAS --------------- #
+
+    print("Calculando a Diferenca.. e salvando a imagem .tif")
+
+    diferenca = (after - before)
+
+    save_image(indice_path +  "data_CUT" + "_.TIF", diferenca, file_path_out_diferenca)
+
+    # Calcula a diferenca relativa verificar
+    diferenca_relativa = diferenca / abs(before)
+
+    save_image(indice_path +  "data_CUT" + "_.TIF", diferenca_relativa, file_path_out_diferenca_relativa)
 
 
 """
@@ -114,10 +119,10 @@ def main():
     if sys.argv < 4:
          print('To few arguments')
 
-    saida = indice_calculate(function, file_path_tar_before, file_path_grade, directory_out)
-    # saida = indice_calculate(function, file_path_tar_after, file_path_grade, directory_out)
+    indice_path, before, landsat_images  = indice_calculate(function, file_path_tar_before, file_path_grade, directory_out)
+    _, after, landsat_images_after  = indice_calculate(function, file_path_tar_after, file_path_grade, directory_out)
 
-    print (saida)
+    calcula_diferenca(landsat_images, indice_path, before, before)
 
 
 if __name__ == '__main__':
