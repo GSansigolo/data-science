@@ -33,15 +33,16 @@ def indice_calculate(indice, file_path_tar, file_path_grade, directory_out):
     if not os.path.exists(directory_out + indice + "/"):
         os.mkdir( directory_out + indice + "/", 0755 )
 
+
+    landsat_images = image_landsat_8(file_path_tar, file_path_grade)
+
     # Define o caminho dos arquivos de saida
     indice_path = directory_out +  indice + "/"+ indice
 
-    file_path_out = indice_path +  "_data" + "_.TIF"
+    file_path_out = indice_path +  "_" + landsat_images.get_time() + "_.TIF"
 
-    file_path_out_cut = indice_path +  "data_CUT" + "_.TIF"
+    file_path_out_cut = indice_path + "_" + landsat_images.get_time() + "_CUT_.TIF"
 
-
-    landsat_images = image_landsat_8(file_path_tar, file_path_grade)
 
     # ----------------- CALCULA INDICE ------------------------- #
 
@@ -90,12 +91,12 @@ def calcula_diferenca(landsat_images, indice_path, before, after):
 
     diferenca = (after - before)
 
-    save_image(indice_path +  "data_CUT" + "_.TIF", diferenca, file_path_out_diferenca)
+    save_image(indice_path + "_" + landsat_images.get_time() + "_CUT_.TIF", diferenca, file_path_out_diferenca)
 
     # Calcula a diferenca relativa verificar
     diferenca_relativa = diferenca / abs(before)
 
-    save_image(indice_path +  "data_CUT" + "_.TIF", diferenca_relativa, file_path_out_diferenca_relativa)
+    save_image(indice_path + "_" + landsat_images.get_time() + "_CUT_.TIF", diferenca_relativa, file_path_out_diferenca_relativa)
 
 
 """
@@ -122,7 +123,7 @@ def main():
     indice_path, before, landsat_images  = indice_calculate(function, file_path_tar_before, file_path_grade, directory_out)
     _, after, landsat_images_after  = indice_calculate(function, file_path_tar_after, file_path_grade, directory_out)
 
-    calcula_diferenca(landsat_images, indice_path, before, before)
+    calcula_diferenca(landsat_images, indice_path, before, after)
 
 
 if __name__ == '__main__':

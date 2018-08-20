@@ -146,6 +146,24 @@ class image_landsat_8:
         plt.colorbar()
         plt.show()
 
+    def get_time(self):
+
+        with open(self.pattern_path + "MTL.txt") as f:
+            lines = f.readlines()
+
+        for line in lines:
+            line = line.replace(' ', '')
+
+            regex = re.search("(.*?)=(.*)", line)
+            if (regex is None):
+                return None
+
+            if regex.group(1) == "DATE_ACQUIRED":
+                return regex.group(2)
+        # print(re.search("=(.*)", line).group(1))
+
+        return None
+
     def calculo_reflectancia(self, mascara, elevation):
         refmcoefs = 0.00002
         refacoefs = -0.1
