@@ -2,7 +2,9 @@ from image_landsat_8 import image_landsat_8
 import os, sys
 import matplotlib.pyplot as plt
 from osgeo import gdal, ogr
+import gdal, gdalconst
 import cv2
+from scipy.cluster.vq import *
 import numpy as np
 
 
@@ -25,13 +27,15 @@ def save_image(data_set_path, spectral_index, directory):
 
     dataset_output = None
 
+    print ("Arquivo salvo")
+
 def indice_calculate(indice, file_path_tar, file_path_grade, directory_out):
 
     print ("-----------------------")
     print ("Realizando o Calculo do INDICE " + indice)
 
     if not os.path.exists(directory_out + indice + "/"):
-        os.mkdir( directory_out + indice + "/", 0755 )
+        os.mkdir( directory_out + indice + "/" )
 
 
     landsat_images = image_landsat_8(file_path_tar, file_path_grade)
@@ -60,7 +64,7 @@ def indice_calculate(indice, file_path_tar, file_path_grade, directory_out):
 
     save_image(landsat_images.get_directory_tmp() + "B6.TIF", band, file_path_out)
 
-    print "Imagem salva!"
+    print ("Imagem salva!")
 
     # ----------------- CORTA IMAGEM ------------------------- #
     #
@@ -96,7 +100,58 @@ def calcula_diferenca(landsat_images, indice_path, before, after):
     # Calcula a diferenca relativa verificar
     diferenca_relativa = diferenca / abs(before)
 
-    save_image(indice_path + "_" + landsat_images.get_time() + "_CUT_.TIF", diferenca_relativa, file_path_out_diferenca_relativa)
+    name = indice_path + "_" + landsat_images.get_time() + "_CUT_.TIF"
+
+    save_image(name, diferenca_relativa, file_path_out_diferenca_relativa)
+
+    return file_path_out_diferenca
+
+def teste_kmeans(landsat_images, filename):
+
+    sarfile = gdal.Open(filename, gdalconst.GA_ReadOnly)
+    sarraster = sarfile.ReadAsArray()
+
+    # Flatten image to get line of values
+    flatsarraster = sarraster.flatten()
+
+    # Create figure to receive results
+    fig = plt.figure()
+    fig.suptitle('K-Means Classification')
+
+    # In first subplot add original SAR image
+    ax = plt.subplot(241)
+    plt.axis('off')
+    ax.set_title('Original Image')
+    plt.imshow(sarraster, cmap = 'gray')
+
+    # In remaining subplots add k-means classified images
+    for i in range(2):
+        print ("Calculating k-means with " + str(i+2) + " cluster.")
+        file_path_out =  "/home/fabiana/Desktop/cluster_" + str(i+2) + "_.TIF"
+        print file_path_out
+
+        #This scipy code classifies k-mean, code has same length as flattened
+        #SAR raster and defines which class the SAR value corresponds to
+        centroids, variance = kmeans(flatsarraster, i+2)
+        code, distance = vq(flatsarraster, centroids)
+
+        #Since code contains the classified values, reshape into SAR dimensions
+        codeim = code.reshape(sarraster.shape[0], sarraster.shape[1])
+
+        print("Finish!")
+
+        #Plot the subplot with (i+2)th k-means
+        ax = plt.subplot(2,4,i+2)
+        plt.axis('off')
+        xlabel = str(i+2) , ' clusters'
+        ax.set_title(xlabel)
+        plt.imshow(codeim)
+
+        print codeim
+
+        save_image(filename, codeim, file_path_out)
+
+    plt.show()
 
 
 """
@@ -115,7 +170,7 @@ def main():
 
     directory_out = os.path.dirname(os.path.realpath(__file__)) + "/build/"
     if not os.path.exists(directory_out):
-        os.mkdir(directory_out, 0755 )
+        os.mkdir(directory_out )
 
     if sys.argv < 4:
          print('To few arguments')
@@ -123,7 +178,9 @@ def main():
     indice_path, before, landsat_images  = indice_calculate(function, file_path_tar_before, file_path_grade, directory_out)
     _, after, landsat_images_after  = indice_calculate(function, file_path_tar_after, file_path_grade, directory_out)
 
-    calcula_diferenca(landsat_images, indice_path, before, after)
+    name =  calcula_diferenca(landsat_images, indice_path, before, after)
+
+    teste_kmeans(landsat_images, name)
 
 
 if __name__ == '__main__':
