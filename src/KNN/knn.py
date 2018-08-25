@@ -46,8 +46,8 @@ OUTPUT = np.array([])
 TRAIN = {"queimada":[], "nao-queimada":[]}
 
 # For loop to Train
-for i in range(int(RGB.RasterXSize*0.8)):
-	for j in range(int(RGB.RasterYSize*0.8)):
+for i in range(int(RGB.RasterXSize*0.025)):
+	for j in range(int(RGB.RasterYSize*0.025)):
 		last_i, last_j = i, j
 		if MASK[i][j] == 2:
 			TRAIN["queimada"].append([NBR2[i][j], MIRB[i][j], NDVI[i][j]])
@@ -55,9 +55,12 @@ for i in range(int(RGB.RasterXSize*0.8)):
 			TRAIN["nao-queimada"].append([NBR2[i][j], MIRB[i][j], NDVI[i][j]])
 					
 # For loop to test Test
-for i in range(int(RGB.RasterXSize*0.2)):
-	for j in range(int(RGB.RasterYSize*0.2)):
+for i in range(int(RGB.RasterXSize*0.005)):
+	for j in range(int(RGB.RasterYSize*0.005)):
 		teste = NBR2[last_i+i][last_j+j], MIRB[last_i+i][last_j+j], NDVI[last_i+i][last_j+j]
-		print(k_nearest_neighbors(TRAIN, [teste], k=3))
+		if MASK[i][j] == 2:
+			print(k_nearest_neighbors(TRAIN, [teste], k=3)+' - '+'queimada')		
+		else:		
+			print(k_nearest_neighbors(TRAIN, [teste], k=3)+' - '+'nao-queimada')
 
 
