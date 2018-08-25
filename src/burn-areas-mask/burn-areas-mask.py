@@ -9,9 +9,8 @@ import imageio
 import cv2
 
 try:
-	#B1 = gdal.Open("data-in/diferenca_NDVI.TIF")
-	#B1 = gdal.Open("data-in/ndvi_dif_relativa_mariano.TIF")
-	B1 = gdal.Open("data-in/ndvi_dif_relativa.TIF")
+	B1 = gdal.Open("data-in/diferenca_NDVI.TIF")
+	#B1 = gdal.Open("data-in/ndvi_dif_relativa.TIF")
 	print ("Arquivos aberto com sucesso")
 except:
 	print("Erro na abertura dos arquivo")
@@ -21,12 +20,11 @@ except:
 band_1 = B1.GetRasterBand(1)
 
 # Trasform in Numpy Array
-array_B1 = band_1.ReadAsArray().astype(np.float32)
+array_B1 = band_1.ReadAsArray().astype(np.float64)
 print ("Bandas Convertidas")
 
-print(array_B1)
-
 # Plot
+plt.suptitle('Original')
 plt.imshow(array_B1, cmap='RdYlGn')
 plt.colorbar()
 plt.show()
@@ -52,6 +50,7 @@ res = center[label.flatten()]
 res2 = res.reshape((img.shape))
 
 # Plot
+plt.suptitle('K-Means')
 plt.imshow(res2, cmap='gray')
 plt.colorbar()
 plt.show()
@@ -65,6 +64,7 @@ mask = cv2.inRange(res2, lower_cloud, upper_cloud)
 img = imageio.imwrite('outfile.jpg', mask)
 
 # Plot
+plt.suptitle('Mask')
 plt.imshow(mask, cmap='gray')
 plt.colorbar()
 plt.show()
