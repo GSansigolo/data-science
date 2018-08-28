@@ -31,7 +31,7 @@ def save_image(data_set_path, spectral_index, directory):
 
 def indice_calculate(indice, file_path_tar, file_path_grade, directory_out):
 
-    print ("-----------------------")
+    print ("----------------------------------------")
     print ("Realizando o Calculo do INDICE " + indice)
 
     if not os.path.exists(directory_out + indice + "/"):
@@ -52,7 +52,7 @@ def indice_calculate(indice, file_path_tar, file_path_grade, directory_out):
 
     if indice == "NDVI":
         band = landsat_images.ndvi()
-    elif indice == "MIRB":
+    elif indice == "MIRBI":
         band = landsat_images.mirb()
     elif indice == "NBR2":
         band = landsat_images.nbr2()
@@ -82,15 +82,11 @@ def indice_calculate(indice, file_path_tar, file_path_grade, directory_out):
 
 def calcula_diferenca(landsat_images, indice_path, before, after):
 
-    # print ("Teste passagem")
-    # print(before.shape)
-    # print(before.shape)
-
     file_path_out_diferenca = indice_path + "_diferenca.TIF"
     file_path_out_diferenca_relativa = indice_path +   "_REL_diferenca.TIF"
 
     # ------------ CALCULA A DIFERENCA DAS BANDAS --------------- #
-
+    print("--------------------------------------------")
     print("Calculando a Diferenca.. e salvando a imagem .tif")
 
     diferenca = (after - before)
@@ -106,50 +102,46 @@ def calcula_diferenca(landsat_images, indice_path, before, after):
 
     return file_path_out_diferenca
 
-def teste_kmeans(landsat_images, filename):
+def teste_kmeans(landsat_images, filename, indice, directory_out):
 
-    sarfile = gdal.Open(filename, gdalconst.GA_ReadOnly)
-    sarraster = sarfile.ReadAsArray()
+    print("----------------------------------------")
 
-    # Flatten image to get line of values
-    flatsarraster = sarraster.flatten()
+    data_set = gdal.Open(filename, gdalconst.GA_ReadOnly)
+    data_array = data_set.ReadAsArray()
 
-    # Create figure to receive results
+    flat_data_array = data_array.flatten()
+
+
     fig = plt.figure()
     fig.suptitle('K-Means Classification')
 
-    # In first subplot add original SAR image
+    # Adiciona a imagem Original no plot
     ax = plt.subplot(241)
     plt.axis('off')
     ax.set_title('Original Image')
-    plt.imshow(sarraster, cmap = 'gray')
+    plt.imshow(data_array, cmap = 'gray')
 
-    # In remaining subplots add k-means classified images
+    # realizar a classificacao no K estipulado
     for i in range(2):
-        print ("Calculating k-means with " + str(i+2) + " cluster.")
-        file_path_out =  "/home/fabiana/Desktop/cluster_" + str(i+2) + "_.TIF"
-        print file_path_out
+        print ("Calculando k-means with " + str(i+2) + " cluster.")
+        file_path_out =  directory_out + "cluster_"+ indice + str(i+2) + "_.TIF"
+        print ("Salvando as imagens no Diretorio: " + file_path_out)
+        centroids, variance = kmeans(flat_data_array, i+2)
+        code, distance = vq(flat_data_array, centroids)
 
-        #This scipy code classifies k-mean, code has same length as flattened
-        #SAR raster and defines which class the SAR value corresponds to
-        centroids, variance = kmeans(flatsarraster, i+2)
-        code, distance = vq(flatsarraster, centroids)
 
-        #Since code contains the classified values, reshape into SAR dimensions
-        codeim = code.reshape(sarraster.shape[0], sarraster.shape[1])
+        image_final = code.reshape(data_array.shape[0], data_array.shape[1])
 
-        print("Finish!")
+        print("Processo K-means Terminado!")
 
-        #Plot the subplot with (i+2)th k-means
+        # plota as imagens com k = i + 2
         ax = plt.subplot(2,4,i+2)
         plt.axis('off')
-        xlabel = str(i+2) , ' clusters'
+        xlabel = str(i+2) , ' Cluster'
         ax.set_title(xlabel)
-        plt.imshow(codeim)
+        plt.imshow(image_final)
 
-        print codeim
-
-        save_image(filename, codeim, file_path_out)
+        save_image(filename, image_final, file_path_out)
 
     plt.show()
 
@@ -159,28 +151,33 @@ def teste_kmeans(landsat_images, filename):
 """
 def main():
 
-    # ARRUMAS PARA PATRONIzAR as ENTRADAS para NAO FICAR REPETIDAS AS FUNCOES IGUaIS ESTAO
+    # dados de entrada passados pelo usuario
+
     file_path_grade = str(sys.argv[1])
     file_path_tar_before = str(sys.argv[2])
     file_path_tar_after = str(sys.argv[3])
-
-    function = str(sys.argv[4])
-
-    print("Diretorio de saida: \n " + os.path.dirname(os.path.realpath(__file__)) + "/build/" + "\n")
+    indice_name = str(sys.argv[4])
+    kmeans_option = str(sys.argv[5])
 
     directory_out = os.path.dirname(os.path.realpath(__file__)) + "/build/"
+
+    print("Diretorio de saida: \n " + directory_out + "\n")
+
     if not os.path.exists(directory_out):
         os.mkdir(directory_out )
 
-    if sys.argv < 4:
-         print('To few arguments')
+    if sys.argv < 5:
+         print('Poucos argumentos, verificar como utilizar')
 
-    indice_path, before, landsat_images  = indice_calculate(function, file_path_tar_before, file_path_grade, directory_out)
-    _, after, landsat_images_after  = indice_calculate(function, file_path_tar_after, file_path_grade, directory_out)
+    indice_path, before, landsat_images  = indice_calculate(indice_name, file_path_tar_before, file_path_grade, directory_out)
+    _, after, landsat_images_after  = indice_calculate(indice_name, file_path_tar_after, file_path_grade, directory_out)
 
     name =  calcula_diferenca(landsat_images, indice_path, before, after)
 
-    teste_kmeans(landsat_images, name)
+    print kmeans_option
+    if kmeans_option == '1':
+        print("Iniciando Aprendizado nao supervisionado ")
+        teste_kmeans(landsat_images, name, indice_name, directory_out)
 
 
 if __name__ == '__main__':
