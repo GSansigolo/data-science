@@ -35,4 +35,9 @@ src/cloud-mask/data-out/
 
 src/data/tmp_LC08_L1TP_221067_20170910_20170927_01_T1/
 
-src/data/tmp_LC08_L1TP_221067_20170926_20171013_01_T1/
+src/data/tmp_LC08_L1TP_221067_20170926_20171013_01_T1/.
+
+src/cut-areas/221_067_2017-09-26_AQ30M_02_05.3/
+src/cut-areas/AQM_L8_221_067_2017/
+src/cut-areas/LC08_L1TP_221067_20170926_20171013_01_T1/
+
