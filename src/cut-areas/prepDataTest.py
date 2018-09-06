@@ -26,11 +26,12 @@ print("\nShape of the dataframe: {}".format(df.shape)+"\n")
 print("\nDataframe tail:\n", df.tail())
 
 df['geometry'] = df['geometry'].buffer(0.002)
+#df['geometry'] = df['geometry'].envelope
 
-for i in range(2): #len(df)
+for i in range(9): #len(df)
 	gp = df[df['geometry'] == df['geometry'][i]]
 	gp.to_file(shape_path+"new_shape_221_067_09-26_"+str(i))
 	shapefile = shape_path+"new_shape_221_067_09-26_"+str(i)+"/new_shape_221_067_09-26_"+str(i)+".shp"
 	for j in range(1,12):
-		new_tiff_file = "output/queimada_"+str(i)+"_B"+str(j)+"_.TIF"
+		new_tiff_file = "output/teste_"+str(i)+"_B"+str(j)+"_.TIF"
 		os.system("gdalwarp -overwrite -q -cutline " +shapefile+ " -crop_to_cutline -tr 30.0 30.0 " +tiff_path+'LC08_L1TP_221067_20170926_20171013_01_T1_B'+str(j)+'.TIF'+ " " +new_tiff_file)
