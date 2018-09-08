@@ -1,117 +1,65 @@
 
-# https://medium.com/@kylepob61392/airplane-image-classification-using-a-keras-cnn-22be506fdb53
-
-import glob
 import numpy as np
 import matplotlib.pyplot as plt
-import os.path as path
-from scipy import misc
+from keras.models import Sequential
+from keras.layers.core import Dense, Activation
+from keras.utils import np_utils
+from sklearn.metrics import accuracy_score, f1_score
 
 
-def visualize_data(positive_images, negative_images):
-    # INPUTS
-    # positive_images - Images where the label = 1 (True)
-    # negative_images - Images where the label = 0 (False)
+X_train = np.loadtxt('../../data/res/trainX')
+y_train = np.loadtxt('../../data/res/trainY')
 
-    figure = plt.figure()
-    count = 0
-    for i in range(positive_images.shape[0]):
-        count += 1
-        figure.add_subplot(2, positive_images.shape[0], count)
-        plt.imshow(positive_images[i, :, :])
-        plt.axis('off')
-        plt.title("1")
+X_test = np.loadtxt('../../data/res/testX')
+y_test = np.loadtxt('../../data/res/testY')
 
-        figure.add_subplot(1, negative_images.shape[0], count)
-        plt.imshow(negative_images[i, :, :])
-        plt.axis('off')
-        plt.title("0")
-    plt.show()
+print ("X_train.shape {}".format(X_train.shape))
+print ("X_train.shape[0] {}".format(X_train.shape[0]))
+print ("y_train.shape {}".format(y_train.shape))
+print ("X_test.shape {}".format(X_test.shape))
+print ("y_test.shape {}".format(y_test.shape))
 
-image_path = "/home/fabiana/Documentos/Mestrado/mydevel/2_periodo/CAP-240-394/src/data/20x20"
-file_paths = glob.glob(path.join(image_path, '*.png'))
+sizeInput = X_train.shape[1]
+print ("Camada de Entrada {}".format(sizeInput))
 
-# print file_paths
 
-# Load the images into a single variable and convert to a numpy array
-images = [misc.imread(path,flatten=True) for path in file_paths]
-images = np.asarray(images)
+# Network
+model = Sequential([
+        Dense(512, input_shape=(sizeInput,)),
+        Activation('sigmoid'),
+        Dense(10),
+        Activation('softmax')
+    ])
 
-# Get image size
-image_size = np.asarray([images.shape[0], images.shape[1], images.shape[2]])
-print(image_size)
+# Compile
+model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
 
-# Scale
-images = images / 255
+# Learning
+model.fit(X_train, y_train, batch_size=200, verbose=1, epochs=20, validation_split=0.1)
 
-n_images = images.shape[0]
-labels = np.zeros(n_images)
+# Forecast
+score = model.evaluate(X_test, y_test, verbose=1)
+print('test accuracy : ', score[1])
 
-for i in xrange(10):
-    labels[i] = 1
+# Make a prediction on the test set
+test_predictions = model.predict(X_test)
+test_predictions = np.round(test_predictions)
 
-# print labels
 
-# Split into test and training sets
-TRAIN_TEST_SPLIT = 0.8
+# for result in test_predictions:
+#     print ("Result {}".format(result.argmax()))
 
-# Split at the given index
-split_index = int(TRAIN_TEST_SPLIT * n_images)
-shuffled_indices = np.random.permutation(n_images)
-train_indices = shuffled_indices[:split_index]
-test_indices = shuffled_indices[split_index:]
 
-print ("train_indices {}".format(train_indices))
-print ("test_indices {}".format(test_indices))
+figure = plt.figure()
+maximum_square = 4
+count = 0
+for i in range(12):
+    count =  count + 1
+    figure.add_subplot(maximum_square, maximum_square, count)
+    plt.imshow(X_test[i:i + 1,:].reshape(20,20))
+    plt.axis('off')
+    predict = test_predictions[i + 1].argmax()
+    real = y_test[i + 1].argmax()
+    plt.title("Predicted: " + str(int(predict)) + ", Real: " + str(int(real)), fontsize=10)
 
-# Split the images and the labels
-# x_train = images[train_indices, :, :]
-# y_train = labels[train_indices]
-# x_test = images[test_indices, :, :]
-# y_test = labels[test_indices]
-#
-#
-# print ("x_train.shape {}".format(x_train.shape))
-# print ("y_train.shape {}".format(y_train.shape))
-#
-# print ("x_test.shape {}".format(x_test.shape))
-# print ("y_test.shape {}".format(y_test.shape))
-#
-# print ("y_train: {}".format(y_train))
-# print ("y_test: {}".format(y_test))
-#
-# # Number of positive and negative examples to show
-# N_TO_VISUALIZE = 3
-# #
-# # Select the first N positive examples
-# positive_example_indices = (y_train == 1)
-# print ("positive_example_indices: {}".format(np.sum(positive_example_indices)))
-# print positive_example_indices
-#
-#
-# positive_examples = x_train[positive_example_indices, :, :]
-#
-# print ("positive_examples: {}".format(positive_examples.shape))
-# print positive_examples[:1, :, :]
-# positive_examples_sample = positive_examples[:, :, :]
-#
-# print ("positive_examples2: {}".format(positive_examples_sample.shape))
-#
-# for i in range(np.sum(positive_example_indices)):
-#     image = positive_examples_sample = positive_examples[i, :, :]
-#     print ("positive_examples: {} shape {}".format(i, image.shape))
-#     plt.imshow(image)
-#     plt.show()
-#
-#
-# positive_examples = positive_examples[0:N_TO_VISUALIZE, :, :]
-
-#
-# Select the first N negative examples
-# negative_example_indices = (y_train == 0)
-# print ("negative_example_indices: {}".format(np.sum(negative_example_indices)))
-# negative_examples = x_train[negative_example_indices, :, :]
-# negative_examples = negative_examples[0:N_TO_VISUALIZE, :, :]
-# #
-# # Call the visualization function
-# visualize_data(positive_examples, negative_examples)
+plt.show()
