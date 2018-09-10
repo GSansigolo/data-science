@@ -28,3 +28,11 @@ q_dbf, q_shp, q_prj,  q_shx = [queimadasfilename for queimadasfilename in queima
 queimadas = gpd.read_file(queimadaspath+q_shp)
 
 print("Queimadas Shape: {}".format(queimadas.shape)+"\n")
+
+queimadas.drop(['id','cod_sat','cena_id', 'nome_arq', 'data_pas', 'orb_pto', 'versao', 'n_arq_ant', 'medianb1', 'data_inser', 'fid_1', 'data_proc','maquina', 'proc_id','valida_web', 'user_id', 'data_valid', 'data_visua', 'visualizac', 'visualizad', 'geometry'], 1, inplace=True)
+
+falsos.drop(['id','cod_sat','cena_id', 'nome_arq', 'data_pas', 'orb_pto', 'versao', 'n_arq_ant', 'medianb1', 'data_inser', 'fid_1', 'data_proc','maquina', 'proc_id','valida_web', 'user_id', 'data_valid', 'data_visua', 'visualizac', 'visualizad', 'geometry'], 1, inplace=True)
+
+print("\nDataframe tail:\n", queimadas.tail())
+
+print("\nDataframe tail:\n", falsos.tail())
