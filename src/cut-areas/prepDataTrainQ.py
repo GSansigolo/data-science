@@ -36,5 +36,5 @@ for i in range(9): #len(df)
     gp.to_file(shape_path+"new_shape_221_067_20170809_"+str(i))
     shapefile = shape_path+"new_shape_221_067_20170809_"+str(i)+"/new_shape_221_067_20170809_"+str(i)+".shp"
     for j in range(1,12):
-        new_tiff_file = "output/falsos_"+str(i)+"_B"+str(j)+"_.TIF"
+        new_tiff_file = "output/queimadas_"+str(i)+"_B"+str(j)+"_.TIF"
         os.system("gdalwarp -overwrite -q -cutline " +shapefile+ " -crop_to_cutline -tr 30.0 30.0 " +tiff_path+'LC08_L1TP_221067_20170809_20170824_01_T1_B'+str(j)+'.TIF'+ " " +new_tiff_file)
