@@ -94,6 +94,12 @@ class image_landsat_8:
     def nbr2(self):
         return (self.get_band_swir_1() - self.get_band_swir_2() / self.get_band_swir_1() - self.get_band_swir_2())
 
+    def nbr(self):
+        return (self.get_band_nir() - self.get_band_swir_2() / self.get_band_nir() + self.get_band_swir_2())
+
+    def ndwi(self):
+        return (self.get_band_nir() - self.get_band_swir_1() / self.get_band_nir() + self.get_band_swir_1())
+
     def mirb(self):
         return ((10 * self.get_band_swir_2()) -\
                (9.8 * self.get_band_swir_1()) + 2)

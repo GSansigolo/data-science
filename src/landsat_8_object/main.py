@@ -56,6 +56,10 @@ def indice_calculate(indice, file_path_tar, file_path_grade, directory_out):
         band = landsat_images.mirb()
     elif indice == "NBR2":
         band = landsat_images.nbr2()
+    elif indice == "NBR":
+        band = landsat_images.nbr()
+    elif indice == "NDWI":
+        band = landsat_images.ndwi()
     else:
         print ("Opcao de indice errado")
         exit()
