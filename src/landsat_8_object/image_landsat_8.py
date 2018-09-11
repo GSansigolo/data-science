@@ -92,7 +92,7 @@ class image_landsat_8:
                                              band.RasterYSize, band.RasterCount)
 
     def nbr2(self):
-        return (self.get_band_swir_2() - self.get_band_swir_1()) / (self.get_band_swir_2() + self.get_band_swir_1())
+        return (self.get_band_swir_1() - self.get_band_swir_2() / self.get_band_swir_1() - self.get_band_swir_2())
 
     def mirb(self):
         return ((10 * self.get_band_swir_2()) -\
