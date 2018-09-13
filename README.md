@@ -6,7 +6,7 @@
 
 **Sumario:**
 
-* [1 Analise dos Dados](https://github.com/GSansigolo/CAP-240-394/blob/master/src/analise_dados/analise.ipynb)
+* [1 Análise Exploratória dos Dados](https://github.com/GSansigolo/CAP-240-394/blob/master/src/analise_dados/analise.ipynb)
 * 2 Algoritmos de Aprendizado
     * 2.1 Abordagem por Região (Dados Shapefile-Queimadas)
         * [Support Vector Machine (SVM)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/SVM/SVM.ipynb)
