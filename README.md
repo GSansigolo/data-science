@@ -9,9 +9,9 @@
 * [1 Análise Exploratória dos Dados](https://github.com/GSansigolo/CAP-240-394/blob/master/src/analise_dados/analise.ipynb)
 * 2 Algoritmos de Aprendizado
     * 2.1 Abordagem por Região (Dados Shapefile-Queimadas)
-        * [Support Vector Machine (SVM)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/SVM/SVM.ipynb)
-        * [Neural Network: Multilayer Perceptron (MLP)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/MLP/neural_network.ipynb)
-        * [Decision Tree](https://github.com/GSansigolo/CAP-240-394/blob/master/src/Decision-Tree/decision_tree_sklearning.ipynb)
+        * [Máquina Vetores de Suporte (SVM)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/SVM/SVM.ipynb)
+        * [Rede Neural Perceptron Multicamadas (MLP)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/MLP/neural_network.ipynb)
+        * [Árvore de Decisão](https://github.com/GSansigolo/CAP-240-394/blob/master/src/Decision-Tree/decision_tree_sklearning.ipynb)
     * 2.2 Abordagem Pixel-a-Pixel 
         * [Indices Espectrais](https://github.com/GSansigolo/CAP-240-394/blob/master/src/landsat_8_object/NDVI-Difference.ipynb)
         * [Convolutional Neural Network (CNN)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/MLP/data_science.ipynb) 
