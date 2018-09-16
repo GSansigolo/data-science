@@ -12,10 +12,7 @@
         * [Máquina Vetores de Suporte (SVM)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/SVM/SVM.ipynb)
         * [Rede Neural Perceptron Multicamadas (MLP)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/MLP/neural_network.ipynb)
         * [Árvore de Decisão](https://github.com/GSansigolo/CAP-240-394/blob/master/src/Decision-Tree/decision_tree_sklearning.ipynb)
-    * 2.2 Abordagem Pixel-a-Pixel 
-        * [Indices Espectrais](https://github.com/GSansigolo/CAP-240-394/blob/master/src/landsat_8_object/NDVI-Difference.ipynb)
-        * [Convolutional Neural Network (CNN)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/MLP/data_science.ipynb) 
-    * 2.2 Códigos Auxiliares
+     * 2.2 Códigos Auxiliares
         * [Composição RGB](https://github.com/GSansigolo/CAP-240-394/blob/master/src/cut-areas/prepDataTest.ipynb)
         * [Preparação dos Dados para Teste (CNN)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/cut-areas/prepDataTest.ipynb)
         * [Preparação dos Dados para Treinamento (CNN)](https://github.com/GSansigolo/CAP-240-394/blob/master/src/cut-areas/prepDataTrainQ.ipynb)
