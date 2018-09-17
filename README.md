@@ -14,7 +14,6 @@
         * [Árvore de Decisão](https://github.com/GSansigolo/CAP-240-394/blob/master/src/Decision-Tree/decision_tree_sklearning.ipynb)
      * 2.2 Códigos Auxiliares
         * [Calculo dos Índices Espectrais](https://github.com/GSansigolo/CAP-240-394/blob/master/src/landsat_8_object/NDVI-Difference.ipynb)
-        * [Composição RGB](https://github.com/GSansigolo/CAP-240-394/blob/master/src/cut-areas/prepDataTest.ipynb)
         * [Mascara Nuvem](https://github.com/GSansigolo/CAP-240-394/blob/master/src/cloud-mask/cloud-mask.ipynb)
 * [3 Resultados e Conclusões](https://github.com/GSansigolo/CAP-240-394/blob/master/src/conclusao/conclusao.ipynb)
 
